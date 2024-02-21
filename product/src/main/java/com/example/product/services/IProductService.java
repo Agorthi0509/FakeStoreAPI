@@ -1,7 +1,6 @@
 package com.example.product.services;
 
 import com.example.product.DTO.ProductRequestDto;
-import com.example.product.exceptions.InvalidIdException;
 import com.example.product.models.Product;
 import org.springframework.stereotype.Service;
 

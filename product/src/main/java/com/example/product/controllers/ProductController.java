@@ -1,19 +1,15 @@
 package com.example.product.controllers;
 
 import com.example.product.DTO.ProductRequestDto;
-import com.example.product.ProductApplication;
-import com.example.product.exceptions.InvalidIdException;
+import com.example.product.services.InvalidIdException;
 import com.example.product.models.Product;
 import com.example.product.DTO.ProductWrapper;
 import com.example.product.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,17 +26,24 @@ public class ProductController {
     }
     //Get single product
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductWrapper> getSingleProduct(@PathVariable("id") Long id){
+    public ResponseEntity<ProductWrapper> getSingleProduct(@PathVariable("id") Long id) throws InvalidIdException {
         ResponseEntity<ProductWrapper> response;
-        try {
-            Product product= productService.getSingleProduct(id);
-            ProductWrapper productWrapper= new ProductWrapper(product,"All good fellas!!");
-            response = new ResponseEntity<>(productWrapper, HttpStatus.OK);
+//        try {
+//            Product product= productService.getSingleProduct(id);
+//            ProductWrapper productWrapper= new ProductWrapper(product,"All good fellas!!");
+//            response = new ResponseEntity<>(productWrapper, HttpStatus.OK);
+//
+//        } catch (InvalidIdException e) {
+//            ProductWrapper productWrapper= new ProductWrapper(null,"All not good fellas!!");
+//            response = new ResponseEntity<>(productWrapper,HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//        return response;
 
-        } catch (InvalidIdException e) {
-            ProductWrapper productWrapper= new ProductWrapper(null,"All not good fellas!!");
-            response = new ResponseEntity<>(productWrapper,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        //Using RestControllerAdvice for exception handling
+
+        Product product= productService.getSingleProduct(id);
+        ProductWrapper productWrapper= new ProductWrapper(product,"All good fellas!!");
+        response = new ResponseEntity<>(productWrapper, HttpStatus.OK);
         return response;
 
     }

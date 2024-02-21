@@ -1,9 +1,7 @@
 package com.example.product.services;
 
-import com.example.product.AppConfig.ApplicationConfiguration;
 import com.example.product.DTO.ProductRequestDto;
 import com.example.product.DTO.ProductResponseDto;
-import com.example.product.exceptions.InvalidIdException;
 import com.example.product.models.Category;
 import com.example.product.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
-import javax.management.relation.InvalidRelationIdException;
 import java.util.ArrayList;
 import java.util.List;
 

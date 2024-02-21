@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductWrapper {
-    Product product;
-    String message;
+    private Product product;
+    private String message;
 
-    public ProductWrapper(Product product, String s) {
+    public ProductWrapper(Product product, String message) {
         this.product= product;
-        this.message= s;
+        this.message= message;
     }
 }

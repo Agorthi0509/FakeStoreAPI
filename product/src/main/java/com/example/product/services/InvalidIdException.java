@@ -1,4 +1,4 @@
-package com.example.product.exceptions;
+package com.example.product.services;
 
 public class InvalidIdException extends Throwable {
 
