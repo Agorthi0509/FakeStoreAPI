@@ -37,7 +37,7 @@ public class FakeStoreProductService implements IProductService {
     public Product getSingleProduct(Long id) throws InvalidIdException {
 //        RestTemplate restTemplate=new RestTemplate();
         if(id>20){
-            throw new InvalidIdException();
+            throw new InvalidIdException("This is an invalid no");
         }
         ProductResponseDto response = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, ProductResponseDto.class);
         return getProductFromResponseDto(response);
@@ -69,6 +69,11 @@ public class FakeStoreProductService implements IProductService {
          return getProductFromResponseDto(productResponseDto);
 
 
+    }
+
+    @Override
+    public Product addProduct(Product product) {
+        return null;
     }
 
 

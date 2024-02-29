@@ -1,11 +1,15 @@
 package com.example.product.controllers;
 
 import com.example.product.DTO.ProductRequestDto;
+import com.example.product.exception.ProductDoesnotExistException;
+import com.example.product.models.Category;
+import com.example.product.repository.ProductRepository;
 import com.example.product.services.InvalidIdException;
 import com.example.product.models.Product;
 import com.example.product.DTO.ProductWrapper;
 import com.example.product.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +19,13 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    @Autowired
-    private IProductService productService;
+//    @Autowired
+//    private IProductService productService;
+private IProductService productService;
+@Autowired
+public ProductController(@Qualifier("selfStoreProductService") IProductService productService){
+this.productService=productService;
+}
 
 
     //Get All Products
@@ -51,11 +60,20 @@ public class ProductController {
     //Add product
     @PostMapping("/products")
     public Product addProduct(@RequestBody ProductRequestDto productRequestDto){
-        return new Product();
+        Product product = new Product();
+        product.setName(productRequestDto.getTitle());
+        product.setCategory(new Category());
+        product.setPrice(productRequestDto.getPrice());
+        product.getCategory().setName(productRequestDto.getCategory());
+        product.setDescription(productRequestDto.getDescription());
+
+    return productService.addProduct(product);
     }
     @PutMapping("/products/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequestDto productRequestDto){
-        return productService.updateProduct(id,productRequestDto);
+    public ResponseEntity<ProductWrapper> updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequestDto productRequestDto) throws ProductDoesnotExistException {
+        Product product = productService.updateProduct(id,productRequestDto);
+        ProductWrapper productWrapper = new ProductWrapper(product,"It is updated!!");
+    return new ResponseEntity<>(productWrapper,HttpStatus.OK);
     }
     @DeleteMapping("/products/{id}")
     public boolean deleteProduct(@PathVariable("id") Long id){
