@@ -114,7 +114,8 @@ this.categoryRepository = categoryRepository;
     @Override
     public Product addProduct(Product product) {
         Optional<Category> categoryOptional= categoryRepository.findByName(product.getCategory().getName());  //Optional to check null
-        if(categoryOptional.isEmpty()){
+        if(categoryOptional.isEmpty())
+            {
             //Note - not required after cascading in model - Product
 //            Category categoryToSave = new Category();
 //            categoryToSave.setName(product.getCategory().getName());  // to save without id
