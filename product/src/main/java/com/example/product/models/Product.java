@@ -1,5 +1,6 @@
 package com.example.product.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
@@ -14,7 +15,8 @@ public class Product extends BaseModel {
     private String description;
     private Long price;
     private String image;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+//    //PERSIST means saving, creating something new
     private Category category;
 
 }

@@ -115,10 +115,11 @@ this.categoryRepository = categoryRepository;
     public Product addProduct(Product product) {
         Optional<Category> categoryOptional= categoryRepository.findByName(product.getCategory().getName());  //Optional to check null
         if(categoryOptional.isEmpty()){
-            Category categoryToSave = new Category();
-            categoryToSave.setName(product.getCategory().getName());  // to save without id
-            Category savedCategory = categoryRepository.save(categoryToSave); // after saving in DB Category with DB
-            product.setCategory(savedCategory);
+            //Note - not required after cascading in model - Product
+//            Category categoryToSave = new Category();
+//            categoryToSave.setName(product.getCategory().getName());  // to save without id
+//            Category savedCategory = categoryRepository.save(categoryToSave); // after saving in DB Category with DB
+//            product.setCategory(savedCategory);
         }
         else{
             product.setCategory(categoryOptional.get());
