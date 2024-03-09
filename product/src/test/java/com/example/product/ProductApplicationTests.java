@@ -1,6 +1,8 @@
 package com.example.product;
 
+import com.example.product.models.Category;
 import com.example.product.models.Product;
+import com.example.product.repository.CategoryRepository;
 import com.example.product.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ class ProductApplicationTests {
 
 	@Autowired
 	ProductRepository productRepository;
+	@Autowired
+	CategoryRepository categoryRepository;
 	@Test
 	void contextLoads() {
 	}
@@ -28,6 +32,12 @@ class ProductApplicationTests {
 		Optional<Product> optionalProduct = productRepository.findByName("MacBook");
 		Product product = optionalProduct.get();
 		System.out.println(product.getId()+" "+product.getName());
+	}
+	@Test
+	public void getCategory(){
+		Optional<Category> optionalCategory = categoryRepository.findById(2L);
+		Category category = optionalCategory.get();
+		System.out.println(category);
 	}
 
 
