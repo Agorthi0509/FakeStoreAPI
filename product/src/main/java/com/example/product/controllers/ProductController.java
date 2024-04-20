@@ -28,6 +28,11 @@ this.productService=productService;
 }
 
 
+    @PostMapping("/hi")
+    public String sayHello(){
+        return "Hello";
+    }
+
     //Get All Products
     @GetMapping("/products")
     public List<Product> getAllProducts(){
