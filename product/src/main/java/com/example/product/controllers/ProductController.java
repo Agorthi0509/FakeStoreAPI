@@ -19,13 +19,13 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-//    @Autowired
-//    private IProductService productService;
-private IProductService productService;
-@Autowired
-public ProductController(@Qualifier("selfStoreProductService") IProductService productService){
-this.productService=productService;
-}
+    @Autowired
+    private IProductService productService;
+//private IProductService productService;
+//@Autowired
+//public ProductController(@Qualifier("selfStoreProductService") IProductService productService){
+//this.productService=productService;
+//}
 
 
     @PostMapping("/hi")

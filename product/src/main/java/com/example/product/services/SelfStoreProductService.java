@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Primary
-@Qualifier("selfStoreProductService")
+//@Primary
+//@Qualifier("selfStoreProductService")
 @Service
 
 public class SelfStoreProductService implements  IProductService{

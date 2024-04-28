@@ -5,6 +5,10 @@ import com.example.product.DTO.ProductResponseDto;
 import com.example.product.models.Category;
 import com.example.product.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
@@ -13,11 +17,17 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+@Primary
 @Service
+
 public class FakeStoreProductService implements IProductService {
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
     public Product getProductFromResponseDto(ProductResponseDto responseDto){
         Product product = new Product();
         product.setId(responseDto.getId());
@@ -36,11 +46,18 @@ public class FakeStoreProductService implements IProductService {
     @Override
     public Product getSingleProduct(Long id) throws InvalidIdException {
 //        RestTemplate restTemplate=new RestTemplate();
+
+        if(redisTemplate.opsForHash().hasKey("PRODUCTS",id)){
+            return (Product) redisTemplate.opsForHash().get("PRODUCTS",id);
+        }
         if(id>20){
             throw new InvalidIdException("This is an invalid no");
         }
         ProductResponseDto response = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, ProductResponseDto.class);
-        return getProductFromResponseDto(response);
+Product product= getProductFromResponseDto(response);
+        redisTemplate.opsForHash().put("PRODUCTS",id,product);
+        redisTemplate.expire("PRODUCTS",5, TimeUnit.SECONDS);
+        return product;
     }
     public List<Product> getAllProducts() {
 //        RestTemplate restTemplate=new RestTemplate();
