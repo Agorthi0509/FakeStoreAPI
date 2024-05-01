@@ -10,6 +10,7 @@ import com.example.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -129,5 +130,10 @@ this.categoryRepository = categoryRepository;
         Product savedProduct = productRepository.save(product);
 
         return savedProduct;
+    }
+
+    @Override
+    public Page<Product> getProductByName(String name, int startIndex, int pageSize) {
+        return null;
     }
 }

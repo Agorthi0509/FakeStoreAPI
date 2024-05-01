@@ -10,6 +10,7 @@ import com.example.product.DTO.ProductWrapper;
 import com.example.product.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,12 @@ public class ProductController {
         response = new ResponseEntity<>(productWrapper, HttpStatus.OK);
         return response;
 
+    }
+    @GetMapping("/products/search")
+    public Page<Product> getProductByName(@RequestParam("name") String name,
+                                       @RequestParam("startIndex")int startIndex,
+                                       @RequestParam("pageSize")int pageSize){
+        return productService.getProductByName(name,startIndex,pageSize);
     }
 
     //Add product

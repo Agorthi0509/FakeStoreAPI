@@ -4,8 +4,11 @@ import com.example.product.DTO.ProductRequestDto;
 import com.example.product.DTO.ProductResponseDto;
 import com.example.product.models.Category;
 import com.example.product.models.Product;
+import com.example.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.TimeToLive;
@@ -28,6 +31,9 @@ public class FakeStoreProductService implements IProductService {
 
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
+    @Autowired
+    private ProductRepository productRepository;
+
     public Product getProductFromResponseDto(ProductResponseDto responseDto){
         Product product = new Product();
         product.setId(responseDto.getId());
@@ -91,6 +97,12 @@ Product product= getProductFromResponseDto(response);
     @Override
     public Product addProduct(Product product) {
         return null;
+    }
+
+    @Override
+    public Page<Product> getProductByName(String name, int startIndex, int pageSize) {
+
+        return productRepository.findAllByNameContaining(name, PageRequest.of((startIndex / pageSize), (pageSize)));
     }
 
 

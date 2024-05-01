@@ -4,6 +4,7 @@ import com.example.product.DTO.ProductRequestDto;
 import com.example.product.ProductApplication;
 import com.example.product.exception.ProductDoesnotExistException;
 import com.example.product.models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface IProductService {
     Product addProduct(Product product);
 
 
-
+    Page<Product> getProductByName(String name, int startIndex, int pageSize);
 }
